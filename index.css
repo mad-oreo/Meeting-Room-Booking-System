@@ -1,0 +1,105 @@
+:root {
+    --primary-orange: #f47820;
+    --white: #ffffff;
+    --dark-gray: #333333;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--white);
+}
+
+/* Header Styles */
+.header {
+    background-color: var(--primary-orange);
+    color: var(--white);
+    padding: 1rem;
+    text-align: center;
+}
+
+.logo {
+    height: 80px;
+    margin: 1rem;
+}
+
+.redirect {
+    color: var(--white);
+    text-decoration: none;
+    margin: 0 1rem;
+    font-weight: bold;
+}
+
+/* Main Content */
+.page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.top {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.tempah-btn {
+    background-color: var(--primary-orange);
+    color: var(--white);
+    padding: 0.8rem 2rem;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    margin: 1rem 0;
+}
+
+/* Meeting Room Grid */
+.column-bilik {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.bilik-zamrud,
+.bilik-delima,
+.bilik-safir,
+.bilik {
+    border: 2px solid var(--primary-orange);
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.bilik-zamrud:hover,
+.bilik-delima:hover,
+.bilik-safir:hover,
+.bilik:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Footer Styles */
+.footer {
+    background-color: var(--dark-gray);
+    color: var(--white);
+    padding: 2rem;
+    text-align: center;
+    margin-top: 3rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header h2, .header h3 {
+        font-size: 1.2rem;
+    }
+    
+    .redirect {
+        display: block;
+        margin: 0.5rem 0;
+    }
+    
+    .column-bilik {
+        grid-template-columns: 1fr;
+    }
+}
