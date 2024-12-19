@@ -2,48 +2,24 @@
 session_start();
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Meeting Room Booking System</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="index.css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap" rel="stylesheet">
-</head>
-<body>
-    <header class="navbar">
-            <img src="img/Coat_of_Arms_of_Kuala_Lumpur.svg" 
-            alt="Logo DBKL" 
-            class="logo">
-            <div class="logo-text">
-                <h2>INSTITUT LATIHAN</h2>
-                <h3>DEWAN BANDARAYA KUALA LUMPUR</h3>
-            </div>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="">Laman Utama</a> |</li>
-                    <li><a href="">Senarai Tempahan</a> |</li>
-                    <li><a href="">Tambah Tempahan</a> </li>
-                </ul>
-            <nav>
-        </header>
+<?php include 'header.php'; ?>
 
         <div class="login-page">
             <div class="login-text">
-                <h1>Selamat Datang Ke Sistem Tempahan Bilik Mesyuarat</h1>
+                <h1>Selamat Datang </h1>
                 <h4>Masukkan Maklumat Anda Untuk Log Masuk</h4>
+            </div>
+            <div class="login-box">
                 <form action="login_process.php" method="POST">
                     <div class="form-group">
-                        <label for="username"><i class="fas fa-user"></i> Username:</label>
+                        <label for="username"><i class="fas fa-user"></i> Nama Pengguna:</label>
                         <input type="text" id="username" name="username" required>
                     </div>
                     <div class="form-group">
-                        <label for="password"><i class="fas fa-lock"></i> Password:</label>
+                        <label for="password"><i class="fas fa-lock"></i> Kata Laluan:</label>
                         <input type="password" id="password" name="password" required>
                     </div>
-                    <button type="submit" class="login-btn">Login</button>
+                    <button type="submit" name="login" class="login-btn">LOG MASUK</button>
                 </form>
                 <?php
                 if (isset($_SESSION['error'])) {
@@ -51,8 +27,41 @@ session_start();
                     unset($_SESSION['error']);
                 }
                 ?>
-                <p>Don't have an account? <a href="register.php">Register here</a></p>
+                <p>Pengguna Baharu? <a href="registerUser.php">Daftar Disini</a></p>
             </div>
         </div>
-</body>
-</html>
+
+<?php include 'footer.php'; ?>
+
+<?php 
+
+  if(isset($_POST["login"])){
+    $hostname = "localhost:3307";
+    $username = "root";
+    $password = "";
+    $dbname = "anokmie1";
+
+    $connect = mysqli_connect($hostname, $username, $password, $dbname) OR DIE ("Connection failed");
+
+    $user = $_POST["username"];
+    $pass = $_POST["pass"];
+
+    
+        $sql = "SELECT * FROM logins WHERE w_username = '$user' AND w_password = '$pass'";
+        $sendsql = mysqli_query($connect, $sql);
+
+        if($sendsql){
+            if(mysqli_num_rows($sendsql) > 0){
+                $_SESSION['username'] = $user;
+                echo "<script>alert('Successfully Login');</script>";
+                echo "<script>window.location.replace('booking.php');</script>";
+                exit; // Ensure script stops execution after redirect
+            } else {
+                echo "<script>alert('Username or password incorrect');</script>";
+                echo "<script>window.location.replace('anokmielogin.php');</script>";
+                exit; // Ensure script stops execution after redirect
+            }
+        } else {
+            echo "Query failed!";
+        }
+    }
