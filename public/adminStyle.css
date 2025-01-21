@@ -1,0 +1,135 @@
+:root {
+    --primary-orange: #f47820;
+    --white: #f2f2f2;
+    --dark-gray: #333333;
+    --sec-orange:  #ffcc99;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(#f1faff, #cbe4ff);
+}
+
+/* Sidebar */
+
+.sidebar {
+    width: 270px;
+    position: fixed;
+    margin: 16px;
+    border-radius: 16px;
+    background: var(--primary-orange);
+    height: calc(100vh - 32px);
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 20px;
+}
+
+.sidebar-header .toggler {
+    height: 35px;
+    width: 35px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background: white;
+    border: none;
+    color: var(--primary-orange);
+    transition: 0.4 ease;
+}
+
+.sidebar-header .toggler:hover {
+    background: #ffdbbb;
+}
+
+.sidebar-header .toggler span {
+    font-size: 1.75rem;
+}
+
+.sidebar-header .header-logo img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+.sidebar-nav .nav-list {
+    list-style: none;
+    display: flex;
+    gap: 4px;
+    flex-direction: column;
+    transform: translateY(15px);
+    padding: 0 20px;
+}
+
+.sidebar-nav .nav-link {
+    color: #fff;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 30px 15px;
+    text-decoration: none;
+}
+
+.sidebar-nav .nav-link:hover {
+    background: #fff;
+    color: var(--primary-orange);
+    transition: 0.4 ease;
+    border-radius: 8px;
+}
+
+.main-content {
+    margin-left: 300px;
+    padding: 15px;
+    transition: 0.4s ease;
+    min-height: 100vh;
+}
+
+.main-header h1 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 30px;
+}
+
+/* Calendar */
+
+.calendar-wrapper {
+    height: 600px; 
+    width: 100%;
+    margin-top: 50px;
+    padding: 20px;
+}
+
+#calendar {
+    width: 100%;
+    height: auto;
+}
+
+/* Bar Chart */
+
+.chart-container {
+  /* Position and center the chart */
+  position: relative;
+  margin: 0 auto;
+  /* Adjust these as needed */
+  width: 80%;
+  max-width: 1200px;
+  height: 600px;  /* Chart height */
+}
+
+#myChart {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}

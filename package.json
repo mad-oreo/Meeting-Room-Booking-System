@@ -1,18 +1,5 @@
 {
-  "name": "meeting-room-booking-system",
-  "version": "1.0.0",
-  "description": "Meeting room booking system for DBKL",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "najoi",
-  "license": "ISC",
-  "devDependencies": {
-    "firebase-tools": "^13.29.1"
-  },
   "dependencies": {
-    "@firebasegen/default-connector": "file:dataconnect-generated/js/default-connector"
+    "jquery": "^3.7.1"
   }
 }

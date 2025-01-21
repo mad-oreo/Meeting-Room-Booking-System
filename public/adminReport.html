@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="adminStyle.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <title>Admin Report</title>
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <header class="sidebar-header">
+        <a href="adminMain.html" class="header-logo">
+            <img src="img/Coat_of_Arms_of_Kuala_Lumpur.svg" alt="Logo DBKL">
+        </a>
+        <button class="toggler">
+            <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+    </header>
+
+    <nav class="sidebar-nav">
+        <ul class="nav-list primary-nav">
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="nav-label">Mengurus Tempahan</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="nav-label">Mengurus Bilik</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="nav-label">Statistik Tempahan</span>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="nav-list secondary-nav">
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="material-symbols-outlined">account_circle</span>
+                    <span class="nav-label">Profil</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span class="nav-label">Log Keluar</span>
+                </a>
+            </li>
+        </ul>
+  </aside>
+  
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1>Statistik Tempahan</h1>
+    <label for="roomSelect">Pilih Bilik:</label>
+    <select id="roomSelect">
+      <option value="zamrud">Bilik Zamrud</option>
+      <option value="delima">Bilik Delima</option>
+      <option value="nilam">Bilik Nilam</option>
+      <option value="topaz">Bilik Topaz</option>
+    </select>
+    <div class="chart-container">
+      <canvas id="myChart"></canvas>
+    </div>
+  </div>
+
+  <script type="module">
+    // Labels for 12 months
+    const monthLabels = [
+      "Jan", "Feb", "Mac", "Apr", "Mei", "Jun",
+      "Jul", "Ogo", "Sep", "Okt", "Nov", "Dis"
+    ];
+
+    // Example data sets for each room, each with a data array for pagi & petang
+    const roomData = {
+      zamrud: {
+        pagi: [1, 3, 2, 5, 4, 3, 6, 7, 3, 1, 2, 4],
+        petang: [2, 2, 3, 2, 1, 5, 2, 4, 6, 3, 5, 2],
+      },
+      delima: {
+        pagi: [2, 1, 0, 4, 3, 5, 2, 2, 4, 5, 5, 1],
+        petang: [4, 3, 1, 6, 2, 1, 4, 5, 3, 2, 6, 2],
+      },
+      nilam: {
+        pagi: [3, 5, 4, 2, 6, 0, 3, 9, 1, 2, 3, 2],
+        petang: [2, 2, 2, 3, 4, 4, 1, 1, 7, 8, 2, 2],
+      },
+      topaz: {
+        pagi: [0, 2, 3, 1, 2, 3, 5, 4, 5, 2, 3, 4],
+        petang: [5, 3, 4, 5, 1, 3, 2, 6, 3, 4, 3, 2],
+      },
+    };
+
+    let myChart;
+
+    function renderChart(roomKey) {
+      if (myChart) myChart.destroy();
+
+      const pagiData = roomData[roomKey].pagi;
+      const petangData = roomData[roomKey].petang;
+
+      const ctx = document.getElementById("myChart").getContext("2d");
+      myChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: monthLabels,
+          datasets: [
+            {
+              label: "Sesi Pagi",
+              data: pagiData,
+              backgroundColor: "rgba(255, 159, 64, 0.7)",
+            },
+            {
+              label: "Sesi Petang",
+              data: petangData,
+              backgroundColor: "rgba(54, 162, 235, 0.7)",
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: `Statistik Tempahan (${roomKey.toUpperCase()})`
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: { display: true, text: "Jumlah Tempahan" }
+            }
+          }
+        }
+      });
+    }
+
+    // Initialize chart with default room
+    renderChart("zamrud");
+
+    // Handle room selection change
+    const selectEl = document.getElementById("roomSelect");
+    selectEl.addEventListener("change", (e) => {
+      const selectedRoom = e.target.value;
+      renderChart(selectedRoom);
+    });
+  </script>
+</body>
+</html>

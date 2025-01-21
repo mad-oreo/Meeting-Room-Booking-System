@@ -1,0 +1,62 @@
+<script src="script/loadHeadFoot.js"></script>
+<div id="header-placeholder"></div>
+<script type="module">
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const roomParam = params.get('room');
+      if (roomParam) {
+        document.getElementById('nama-bilik').value = roomParam;
+      }
+    });
+  </script>
+    <div class="page">
+        <div class="bilik-content">
+            <div class="bilik-info-container">
+                <section class="bilik-pic">
+                    <img src="img/lebronsunshinecover.jpg" alt="Gambar zamrud" class="bilik-img">
+                </section>
+                <section class="bilik-info">
+                    <h2>Bilik Delima</h2>
+                    <p>RM 100</p>
+                    <p>Tempoh Sewaan: 2 jam</p>
+                    <p>Kapasiti: 10 orang</p>
+                    <p>Perabot: Meja, kerusi, projektor</p>
+                    <p>Wifi: Ya</p>
+                </section>
+            </div>
+            <section class="bilik-form">
+                <h1>Booking Details</h1>
+                <form action="" method="post">
+                    <div class="input-box">
+                        <label for="bilik">Nama Bilik:</label>
+                        <input type="text" id="nama-bilik" name="nama-bilik" required readonly>
+                    </div>
+                    <div class="input-box">
+                        <label for="tajuk">Tajuk Mesyuarat</label>
+                        <input type="text" id="tajuk" name="tajuk" required>
+                    </div>
+                    <div class="input-box">
+                        <label for="tarikh">Tarikh:</label>
+                        <input type="date" id="tarikh" name="tarikh" required>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="sesi">Sesi:</label>
+                        <select id="sesi" name="sesi" required>
+                            <option value="pilih" selected>Pilih Sesi...</option>
+                            <option value="pagi">Sesi Pagi</option>
+                            <option value="petang">Sesi Petang</option>
+                        </select>.
+                    </div>
+                    <div class="input-box">
+                        <label for="sebab">Sebab Keperluan:</label>
+                        <textarea id="sebab" name="sebab"></textarea>
+                    </div>
+
+                    <button type="button" id="bilik-tempah-btn" class="tempah-btn">TEMPAH</button>
+                </form>
+            </section>
+        </div>
+    </div>
+    <script src="script/roomBooking.js" type="module"></script>
+    <div id="footer-placeholder"></div>

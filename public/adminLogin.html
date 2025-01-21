@@ -1,0 +1,30 @@
+<script src="script/loadHeadFoot.js"></script>
+<div id="header-placeholder"></div>
+        <div class="login-page">
+            <div class="login-text">
+                <h1>Selamat Datang Ke Laman Pentadbir</h1>
+                <h4>Masukkan Maklumat Anda Untuk Log Masuk</h4>
+            </div>
+            <div class="login-box">
+                <form action="" method="POST">
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-email"></i> Emel:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock"></i> Kata Laluan:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" name="login" id="log-btn-admin" class="login-btn">LOG MASUK</button>
+                </form>
+                
+                <p>Pentadbir Baharu? <a href="adminRegister.html">Daftar Disini</a></p> 
+            </div>
+        </div>
+
+        <script type="module">
+            import { adminLogin } from './script/authAdmin.js';
+            adminLogin();
+        </script>
+
+        <div id="footer-placeholder"></div>
