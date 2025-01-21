@@ -29,7 +29,7 @@
         <section class="top">
             <h1 class="top-title">Tempahan Bilik Mesyuarat</h1>
             <h3>Lorem Ipsum</h3>
-            <a href="" class="tempah-btn">TEMPAH DISINI</a>
+            <a href="loginPageUser.php" class="tempah-btn">TEMPAH DISINI</a>
         </section>
 
         <section class="bottom">

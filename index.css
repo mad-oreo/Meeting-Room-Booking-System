@@ -2,6 +2,7 @@
     --primary-orange: #f47820;
     --white: #f2f2f2;
     --dark-gray: #333333;
+    --sec-orange:  #ffcc99;
 }
 
 * {
@@ -37,7 +38,7 @@ body {
     font-size: 13px;
     font-weight: 700;
     padding: 0;
-    margin-right: 500px;
+    margin-right: auto;
     text-align: left;
     white-space: nowrap;
 }
@@ -47,8 +48,7 @@ body {
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 10px;
-    
+    gap: 10px;   
 }
 
 .nav-links li {
@@ -97,11 +97,18 @@ body {
 }
 
 /* Meeting Room Grid */
+
+.pilih-bilik h1 {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 2rem ;
+}
 .column-bilik {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap; /* Allows boxes to wrap to the next line if necessary */
     gap: 2rem;
     margin: 2rem 0;
+    justify-content: center; /* Centers the boxes within the container */
 }
 
 /* Container for each meeting room box */
@@ -109,41 +116,40 @@ body {
 .bilik-delima,
 .bilik-safir,
 .bilik-nilam {
+    flex: 1 1 calc(25% - 2rem); /* Each box takes up 25% width minus the gap */
+    max-width: calc(25% - 2rem); /* Ensures boxes don't exceed 25% width */
+    box-sizing: border-box; /* Includes padding and border in the width */
     display: flex;
-    align-items: center; /* Center items vertically */
+    flex-direction: column; /* Stacks content vertically inside the box */
+    align-items: center;
     border: 2px solid var(--primary-orange);
-    padding: 2rem;
+    padding: 1rem;
     border-radius: 8px;
     transition: transform 0.3s ease;
-    margin-bottom: 1rem; /* Space between boxes */
-    position: relative;
+    margin-bottom: 2rem; /* Space between rows */
 }
 
 /* Image styling */
 .bilik-img {
-    max-width: 200px;
-    margin-right: 2rem;
-    flex-shrink: 0; /* Prevent image from shrinking */
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
 }
 
 /* Content inside the box */
 .bilik-content {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
+    text-align: center;
 }
 
 /* Heading and paragraph styling */
 .bilik-content h2,
 .bilik-content p {
-    margin: 0;
-    text-align: left;
+    margin: 0.5rem 0;
 }
 
 /* Button styling */
 .bilik-content .tempah-btn {
     margin-top: 1rem;
-    align-self: flex-start; /* Align button to the left */
 }
 
 /* Hover effect */
@@ -153,13 +159,6 @@ body {
 .bilik-nilam:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.bottom a {
-    background-color: var(--primary-orange);
-    position: absolute;
-    bottom: -10px;
-    right: 10px;
 }
 
 /* Footer Styles */
@@ -327,4 +326,81 @@ body {
 
 .login-box a:hover {
     text-decoration: underline;
+}
+
+/* Booking Page */
+
+.bilik-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.bilik-info-container {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.bilik-pic {
+    flex: 1;
+}
+
+.bilik-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.bilik-info {
+    flex: 1;
+}
+
+.bilik-form {
+    width: 100%;
+    background: var(--sec-orange);
+    padding: 25px 30px;
+    border-radius: 7px;
+}
+
+.bilik-form form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+form .input-box {
+    margin: 20px 0 12px 0;
+    width: calc(100% / 2 - 20px);
+}
+
+.input-box input {
+    height: 45px;
+    width: 100%;
+}
+
+.bilik-form h1 {
+    font-size: 25px;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .bilik-zamrud,
+    .bilik-delima,
+    .bilik-safir,
+    .bilik-nilam {
+        flex: 1 1 calc(50% - 2rem); /* Two boxes per row on medium screens */
+        max-width: calc(50% - 2rem);
+    }
+}
+
+@media (max-width: 768px) {
+    .bilik-zamrud,
+    .bilik-delima,
+    .bilik-safir,
+    .bilik-nilam {
+        flex: 1 1 100%; /* Full width boxes on small screens */
+        max-width: 100%;
+    }
 }

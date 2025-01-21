@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Meeting Room Booking System</title>
+    <title>Tempahan Bilik Mesyuarat</title>
     <link rel="stylesheet" href="index.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap" rel="stylesheet">
 </head>
@@ -19,8 +19,8 @@
             <nav>
                 <ul class="nav-links">
                     <li><a href="">Laman Utama</a> |</li>
-                    <li><a href="">Senarai Tempahan</a> |</li>
-                    <li><a href="">Tambah Tempahan</a> </li>
+                    <li><a href="">Lihat Tempahan</a> |</li>
+                    <li><a href="">Profil</a> </li>
                 </ul>
             <nav>
         </header>
