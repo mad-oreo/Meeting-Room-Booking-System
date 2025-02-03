@@ -1,3 +1,4 @@
+
 :root {
     --primary-orange: #f47820;
     --white: #f2f2f2;
@@ -19,14 +20,19 @@ input[type="number"] {
 
 * {
     box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
 }
+
+
+
 
 body {
     margin: 0;
-    font-family: "Montserrat", sans-serif;
     font-weight: 500;
     min-height: 100vh;
-    background: linear-gradient(#f1faff, #cbe4ff);
+    background: linear-gradient(180deg, #fff7e6, #cbe4ff);
+    
+    
 }
 
 /* Header Styles SIAP */ 
@@ -268,8 +274,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-color: #f2f2f2;
+    height: 120vh;
     position: relative;
 }
 
@@ -283,7 +288,7 @@ body {
     width: 100%;
     position: relative;
     z-index: 1;
-    transform: translateY(-30px);
+    transform: translateY(-50px);
 }
 
 .login-text {
@@ -329,19 +334,20 @@ body {
     border-radius: 4px;
 }
 
+
 .form-group-pic {
     display: flex;
     align-items: center;
     position: relative;
 }
 
-.form-group input {
+/* .form-group input {
     width: 100%;
     padding: 0.8rem;
     border: 1px solid #ccc;
     border-radius: 4px;
     padding-right: 40px;
-}
+} */
 
 .form-group-pic img {
     position: absolute;
@@ -384,18 +390,38 @@ body {
 }
 
 /* Register Page */
+.login-text h4 {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    text-align: center;
+    padding: 1rem;
+    line-height: 40px;
+    transform: translateY(-30px);
+}
 
 .register-box {
-    background-color: #f2f2f2;
+    background-color: #fff5ee;
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     text-align: center;
-    max-width: 400px;
+    max-width: 800px;
     width: 100%;
     position: relative;
     z-index: 1;
-    transform: translateY(50px);
+    transform: translateY(30px);
+    margin-top: 2rem;
+}
+
+.form-group-pic.register img {
+    transform: translateX(680px);
+}
+
+.register-info input:focus {
+    border-color: var(--primary-orange);
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 145, 0, 0.751); /* Optional: add a shadow for better visibility */
 }
 
 /* Booking Page */
@@ -424,13 +450,17 @@ body {
 
 .bilik-info {
     flex: 1;
+    text-align: center;
+    text-justify: auto;
+    padding: 2rem;
 }
 
 .bilik-form {
     width: 100%;
-    background: var(--sec-orange);
+    background: #e6f2ff;
     padding: 25px 30px;
     border-radius: 7px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); 
 }
 
 .bilik-form form {
@@ -441,11 +471,19 @@ body {
 
 /* Wrap both checkboxes in a container so they stay together near the bottom */
 .checkbox-container {
-    width: 100%;
     display: flex;
-    gap: 1rem;
+    flex-direction: column;
     margin-bottom: 1rem;
-    /* Move toward the bottom by placing this container just before the button in HTML */
+    
+}
+
+.checkbox-container > label {
+    margin-bottom: 0.5rem;
+}
+
+.checkbox-container > label[for="checkbox"] {
+    display: block;
+    margin-bottom: 0.5rem;
 }
 
 .makan-minum-checkbox {
@@ -453,6 +491,15 @@ body {
     align-items: center;
     gap: 0.5rem;
     margin: 0;
+}
+
+.makan-minum-checkbox input[type="checkbox"] {
+    margin-right: 4rem;
+    height: 20px;
+}
+
+.makan-minum-checkbox label {
+    margin-right: 5rem;
 }
 
 form .input-box {
@@ -493,43 +540,82 @@ form .input-box {
 .center-sebab {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    
     margin: 0 auto;
-    width: 50%; /* Adjust as needed */
+    width: 100%;
 }
   
 .center-sebab textarea {
     width: 100%;
+    min-height: 100px;
 }
 
-form button {
-    width: 100%;
+.tempah-btn-bilik {
     padding: 10px;
     border-radius: 5px;
-    border: none;
     background: var(--primary-orange);
     color: #fff;
-    font-size: 18px;
+    font-size: 15px;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-left: auto;
+}
+.tempah-btn-bilik:hover {
+    background: #e0671a;
 }
 
 /* Admin Side */
-/* Admin Register Page */
 
-.admin-register-box {
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+ /* User Profile Page */
+ h1 {
     text-align: center;
-    max-width: 400px;
-    width: 100%;
-    position: relative;
-    z-index: 1;
-    transform: translateY(80px);
+    padding: 10px;
 }
 
+.update-action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 150px;
+  height: 40px;
+  background-color: var(--primary-orange);
+  margin-left: auto;
+  padding: 7px;
+  border-radius: 7px;
+  border-style: none;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow effect */
+}
+
+.update-action:hover {
+    background-color: #e0671a; /* Slightly darker shade for hover effect */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Slightly larger shadow on hover */
+}
+
+.bilik-form a {
+  color: red;
+  text-decoration: none;
+}
+.bilik-form a:hover {
+  text-decoration: underline;
+}
+
+.main-content {
+    /* Expand the main content to fill remaining space */
+    flex: 1;
+}
+
+/* Make footer as wide as the viewport, with padding */
+footer {
+    width: 100%;
+    background-color: #f1f1f1;
+    padding: 1rem;
+    text-align: center;
+}
 
 /* Responsive Design */
 @media (max-width: 1024px) {
@@ -551,3 +637,30 @@ form button {
         max-width: 100%;
     }
 }
+
+/* Slider */
+.slider {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.slides img {
+  width: 100%;
+  display: none;
+}
+
+.prev, .next {
+  background-color: rgba(0,0,0,0.5);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }

@@ -1,37 +1,43 @@
 import { getDocs, collection, query, where, orderBy, limit, documentId } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
-import { db } from "/public/firebaseConfig.js";
+import { db } from "./firebaseConfig.js";
 
 /**
  * Returns a Promise that resolves to the currentUser
  * once the onAuthStateChanged event fires.
  */
-function getCurrentUser() {
+export function getCurrentUser() {
   return new Promise((resolve) => {
     const auth = getAuth();
     onAuthStateChanged(auth, (currentUser) => {
-      resolve(currentUser ? currentUser.uid : null);
+      if (currentUser) {
+        // Return both uid and email
+        resolve({ uid: currentUser.uid, email: currentUser.email });
+      } else {
+        resolve(null);
+      }
     });
   });
 }
 
 export async function getUserData() {
   try {
-    // 1) Wait for the authenticated user to be available.
-    const user = await getCurrentUser();
-    if (!user) {
+    // 1) Wait for the authenticated user object.
+    const currentUser = await getCurrentUser();
+    if (!currentUser) {
       console.log("No user found.");
       return [];
     }
 
-    // 2) Make the Firestore query now that user.uid is valid.
+    // 2) Query Firestore by the user’s UID
     const userRef = collection(db, "userInfo");
-    const q = query(userRef, where(documentId(), "==", user));
+    const q = query(userRef, where(documentId(), "==", currentUser.uid));
 
-    // 3) Get documents.
+    // 3) Use the authenticated user’s email
     const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc =>({
-      ...doc.data()
+    return snapshot.docs.map(doc => ({
+      ...doc.data(),
+      email: currentUser.email  // Attach the user’s email
     }));
   } catch (err) {
     console.error("Error fetching user data:", err);
@@ -50,7 +56,7 @@ export async function getBookingData() {
 
     // 2) Make the Firestore query now that user.uid is valid.
     const bookingRef = collection(db, "bookingDetails");
-    const q = query(bookingRef, where("userID", "==", user), orderBy("createdAt", "desc"), limit(1));
+    const q = query(bookingRef, where("userID", "==", user.uid), orderBy("createdAt", "desc"), limit(1));
 
     // 3) Get documents.
     const snapshot = await getDocs(q);

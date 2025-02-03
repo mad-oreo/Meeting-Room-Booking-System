@@ -16,9 +16,7 @@
         <a href="adminMain.html" class="header-logo">
             <img src="img/Coat_of_Arms_of_Kuala_Lumpur.svg" alt="Logo DBKL">
         </a>
-        <button class="toggler">
-            <span class="material-symbols-outlined">chevron_left</span>
-        </button>
+       
     </header>
 
     <nav class="sidebar-nav">
@@ -29,6 +27,22 @@
                     <span class="nav-label">Mengurus Tempahan</span>
                 </a>
             </li>
+
+
+            <div class="icon-link">
+                <a href="#" class="nav-link" style="display: flex; align-items: center;">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="nav-label">Senarai Tempahan</span>
+                    <span class="material-symbols-outlined" id="arrow-down" style="margin-left: auto;">keyboard_arrow_down</span>
+                </a>
+                <ul class="sub-menu" id="sub-menu">
+                    <li><a href="#">Tempahan Diluluskan</a></li>
+                    <li><a href="#">Tempahan Ditolak</a></li>
+                    <li><a href="#">Tempahan Didalam Perhatian</a></li>
+                </ul>
+            </div>
+
+
             <li class="nav-item">
                 <a href="#" class="nav-link">
                     <span class="material-symbols-outlined">home</span>
@@ -67,6 +81,19 @@
         <div id="calendar"></div>
     </div>
 </div>
+<script>
+  const arrow = document.getElementById('arrow-down');
+  arrow.addEventListener('click', function() {
+    const subMenu = document.getElementById('sub-menu');
+    if (subMenu.style.display === 'block') {
+      subMenu.style.display = 'none';
+      arrow.textContent = 'keyboard_arrow_down';
+    } else {
+      subMenu.style.display = 'block';
+      arrow.textContent = 'keyboard_arrow_up';
+    }
+  });
+</script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>

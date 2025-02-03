@@ -1,38 +1,46 @@
 <script src="script/loadHeadFoot.js"></script>
 <div id="header-placeholder"></div>
 <script type="module">
+    import { validateDate } from './script/roomBooking.js';
     window.addEventListener('DOMContentLoaded', () => {
       const params = new URLSearchParams(window.location.search);
       const roomParam = params.get('room');
       if (roomParam) {
         document.getElementById('nama-bilik').value = roomParam;
       }
+      const dateInput = document.getElementById('tarikh');
+      dateInput.addEventListener('click', validateDate);
     });
-  </script>
+</script>
     <div class="page">
         <div class="bilik-content">
             <div class="bilik-info-container">
-                <section class="bilik-pic">
-                    <img src="img/lebronsunshinecover.jpg" alt="Gambar zamrud" class="bilik-img">
+                <section class="slider">
+                  <div class="slides">
+                    <img src="img/BilikDelimaMain.jpg" alt="Gambar zamrud" class="bilik-img">
+                    <img src="img/Delima2.jpg" alt="Gambar zamrud" class="bilik-img">
+                    <img src="img/Delima3.jpg" alt="Gambar zamrud" class="bilik-img">
+                  </div>
+                  <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+                  <button class="next" onclick="changeSlide(1)">&#10095;</button>
                 </section>
                 <section class="bilik-info">
-                    <h2>Bilik Delima</h2>
-                    <p>RM 100</p>
-                    <p>Tempoh Sewaan: 2 jam</p>
-                    <p>Kapasiti: 10 orang</p>
-                    <p>Perabot: Meja, kerusi, projektor</p>
-                    <p>Wifi: Ya</p>
+                    <h2 style="font-size: 2rem;">Bilik Delima</h2>
+                    <p>Kapasiti: 14 Orang</p>
+                    <p>Papan Putih: 2 Unit</p>
+                    <p>Projektor & Skrin</p>
+                    <p>Meja dan Kerusi Tambahan: 5 Kerusi & 2 Meja</p>
                 </section>
             </div>
             <section class="bilik-form">
-                <h1>Booking Details</h1>
+                <h1>Maklumat Tempahan</h1>
                 <form action="" method="post">
                     <div class="input-box">
                         <label for="bilik">Nama Bilik:</label>
                         <input type="text" id="nama-bilik" name="nama-bilik" required readonly>
                     </div>
                     <div class="input-box">
-                        <label for="tajuk">Tajuk Mesyuarat</label>
+                        <label for="tajuk">Tajuk Mesyuarat:</label>
                         <input type="text" id="tajuk" name="tajuk" required>
                     </div>
                     <div class="input-box">
@@ -48,15 +56,45 @@
                             <option value="petang">Sesi Petang</option>
                         </select>.
                     </div>
-                    <div class="input-box">
-                        <label for="sebab">Sebab Keperluan:</label>
-                        <textarea id="sebab" name="sebab"></textarea>
+                    <div class="input-box center-sebab">
+                      <label for="sebab">Sebab Keperluan:</label>
+                      <textarea id="sebab" name="sebab"></textarea>
+                    </div>
+                    <div class="input-box checkbox-container">
+                      <label for="checkbox">Tempahan Makanan & Minuman:</label>
+                      <div class="makan-minum-checkbox">
+                        <input type="checkbox" id="makan-checkbox" name="makan-minum">
+                        <label for="makan-checkbox">Makanan</label>
+        
+                        <input type="checkbox" id="minum-checkbox" name="makan-minum">
+                        <label for="minum-checkbox">Minuman</label>
+                      </div>
                     </div>
 
-                    <button type="button" id="bilik-tempah-btn" class="tempah-btn">TEMPAH</button>
+                    <button type="button" id="bilik-tempah-btn" class="tempah-btn-bilik">TEMPAH</button>
                 </form>
             </section>
         </div>
     </div>
     <script src="script/roomBooking.js" type="module"></script>
+    <script>
+      let currentIndex = 0;
+      const slides = document.querySelectorAll('.slides img');
+      
+      function showSlide(n) {
+        slides.forEach((slide, index) => {
+          slide.style.display = (index === n) ? 'block' : 'none';
+        });
+      }
+    
+      function changeSlide(direction) {
+        currentIndex += direction;
+        if (currentIndex < 0) currentIndex = slides.length - 1;
+        if (currentIndex >= slides.length) currentIndex = 0;
+        showSlide(currentIndex);
+      }
+    
+      // Show the first image on page load
+      showSlide(currentIndex);
+    </script>
     <div id="footer-placeholder"></div>

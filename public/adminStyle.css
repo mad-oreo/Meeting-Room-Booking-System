@@ -17,6 +17,21 @@ body {
     background: linear-gradient(#f1faff, #cbe4ff);
 }
 
+/* Admin Register Page */
+
+.admin-register-box {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    transform: translateY(80px);
+}
+
 /* Sidebar */
 
 .sidebar {
@@ -33,20 +48,6 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 25px 20px;
-}
-
-.sidebar-header .toggler {
-    height: 35px;
-    width: 35px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-    background: white;
-    border: none;
-    color: var(--primary-orange);
-    transition: 0.4 ease;
 }
 
 .sidebar-header .toggler:hover {
@@ -69,8 +70,9 @@ body {
     display: flex;
     gap: 4px;
     flex-direction: column;
-    transform: translateY(15px);
+    transform: translateY(-20px);
     padding: 0 20px;
+    background: var(--primary-orange);
 }
 
 .sidebar-nav .nav-link {
@@ -78,7 +80,7 @@ body {
     display: flex;
     gap: 12px;
     align-items: center;
-    padding: 30px 15px;
+    padding: 20px 5px;
     text-decoration: none;
 }
 
@@ -87,6 +89,30 @@ body {
     color: var(--primary-orange);
     transition: 0.4 ease;
     border-radius: 8px;
+}
+
+.sidebar-nav .sub-menu li{
+    padding: 6px 6px 14px 30px;
+    margin-top: -5px;
+    list-style: none;
+    display: block;
+}
+
+.sidebar-nav .sub-menu li :hover {
+    background: #fff;
+    transition: all 0.4 ease;
+    border-radius: 8px;
+}
+
+.sidebar-nav .sub-menu li a {
+    color: #fff;
+    font-size: 13px;
+    padding: 5px 0;
+    text-decoration: none;
+}
+
+.sidebar-nav .sub-menu li a:hover {
+    color: var(--primary-orange);
 }
 
 .main-content {

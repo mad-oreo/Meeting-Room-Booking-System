@@ -1,5 +1,5 @@
 import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
-import { db } from "/public/firebaseConfig.js";
+import { db } from "./firebaseConfig.js";
 
 export async function approvedUser() {
   const approveButtons = document.querySelectorAll(".btn-primary");
@@ -10,7 +10,7 @@ export async function approvedUser() {
 
       const bookingRef = doc(db, "bookingDetails", bookingId);
       try {
-        await updateDoc(bookingRef, { status: "approved" });
+        await updateDoc(bookingRef, { status: "Diluluskan" });
 
         // Remove the row from the table
         const row = event.target.closest("tr");
@@ -31,7 +31,7 @@ export async function rejectedUser() {
 
       const bookingRef = doc(db, "bookingDetails", bookingId);
       try {
-        await updateDoc(bookingRef, { status: "rejected" });
+        await updateDoc(bookingRef, { status: "Ditolak" });
 
         // Remove the row from the table
         const row = event.target.closest("tr");
@@ -52,7 +52,7 @@ export async function KIVUser() {
 
       const bookingRef = doc(db, "bookingDetails", bookingId);
       try {
-        await updateDoc(bookingRef, { status: "kiv" });
+        await updateDoc(bookingRef, { status: "Dalam Perhatian" });
 
         // Remove the row from the table
         const row = event.target.closest("tr");
@@ -62,4 +62,13 @@ export async function KIVUser() {
       }
     });
   });
+}
+
+ // Export table to XLSX function
+ export function exportTableToXLSX(sheetName, xlsxName) {
+  const table = document.querySelector("table");
+  // Convert table to a workbook
+  const workbook = XLSX.utils.table_to_book(table, { sheet: sheetName });
+  // Download as .xlsx file
+  XLSX.writeFile(workbook, xlsxName);
 }

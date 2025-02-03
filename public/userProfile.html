@@ -1,4 +1,234 @@
-<script src="script/loadHeadFoot.js"></script>
-<div id="header-placeholder"></div>
-    
-<div id="footer-placeholder"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Profil Pengguna</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <script src="script/loadHeadFoot.js"></script>
+  <div id="header-placeholder"></div>
+  <style>
+    h1 {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .user-form {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2rem;
+      padding: 1rem; /* some padding to breathe */
+    }
+
+    /* Shared styling for both forms */
+    .info-form {
+      flex: 1;             /* each form takes up equal space */
+      max-width: 400px;    /* limit how wide each form can get */
+      background-color: #f9f9f9;
+      border: none;
+      border-radius: 6px;
+      padding: 1rem;
+    }
+
+    .info-form.user-left {
+      /* Additional or overridden styles for left form if needed */
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .info-form.user-right {
+      /* Additional or overridden styles for right form if needed */
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    fieldset {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 1rem;
+      width: 100%; /* make fieldset fill the form width */
+    }
+
+    legend {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .input-box {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input {
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .update-action {
+      margin-top: 1rem;
+    }
+  </style>
+  
+    <h1>Profil Pengguna</h1>
+    <section class="user-form">
+      <form class="info-form user-left">
+        <fieldset class="user-info">
+            <legend>Maklumat Pengguna</legend>
+            <div class="input-box">
+              <label for="username">Nama Pengguna:</label>
+              <input type="text" id="username" name="username">
+            </div>
+            <div class="input-box">
+              <label for="noGaji">No Gaji:</label>
+              <input type="text" id="noGaji" name="noGaji">
+            </div>
+            <div class="input-box">
+              <label for="jawatan">Jawatan:</label>
+              <input type="text" id="jawatan" name="jawatan">
+            </div>
+            <button type="button" id="update-profile-btn" class="update-action">KEMAS KINI</button>
+
+        </fieldset>
+      </form>
+
+      <form class="info-form user-right">
+        <fieldset class="user-info-auth">
+            <legend>Emel & Kata Laluan</legend>
+            <div class="input-box">
+              <label for="email">Emel:</label>
+              <input type="email" id="email" name="email">
+            </div>
+            <div class="input-box">
+              <label for="email">Emel Baru:</label>
+              <input type="email" id="email-new" name="email">
+            </div>
+            <div class="input-box">
+              <label for="password">Kata Laluan Lama:</label>
+              <input type="password" id="old-password" name="password">
+            </div>
+            <div class="input-box">
+              <label for="password">Kata Laluan Baru:</label>
+              <input type="password" id="new-password" name="password">
+            </div>
+            <div class="input-box">
+              <label for="confirm-password">Sahkan Kata Laluan:</label>
+              <input type="password" id="confirm-password" name="confirm-password">  
+            </div>
+            <button type="button" id="update-profile-btn" class="update-action">KEMAS KINI</button>
+        </fieldset>
+    </section>
+
+
+
+
+  <div id="footer-placeholder"></div>
+</body>
+<script type="module">
+    import { getDocs, getDoc, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
+import { db } from "./script/firebaseConfig.js";
+import { getUserData, getCurrentUser } from "./script/getSummaryData.js";
+import { getAuth, updateEmail, sendEmailVerification } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+
+let initialValues = {}; // store the original values for comparison
+
+async function loadUserProfile() {
+  try {
+    const currUserData = await getUserData();
+    console.log("Current User:", currUserData);
+
+    if (currUserData.length > 0) {
+      const user = currUserData[0];
+      // populate the input fields
+      document.getElementById("username").value = user.username;
+      document.getElementById("noGaji").value = user.noGaji;
+      document.getElementById("jawatan").value = user.jawatan;
+      document.getElementById("email").value = user.email;
+
+      // store the original values
+      initialValues = {
+        username: user.username || "",
+        noGaji: user.noGaji || "",
+        jawatan: user.jawatan || "",
+        email: user.email || "",
+        id: user.uid // make sure you keep track of the user doc ID somewhere
+      };
+    }
+  } catch (error) {
+    console.error("Error loading user profile:", error);
+    alert("Terdapat ralat semasa memuatkan profil pengguna. Sila cuba lagi.");
+  }
+}
+loadUserProfile();
+
+async function updateUserProfile() {
+  try {
+    const username = document.getElementById("username").value;
+    const noGaji = document.getElementById("noGaji").value;
+    const jawatan = document.getElementById("jawatan").value;
+    const email = document.getElementById("email").value;
+
+    // compare old vs new
+    const changes = {};
+    if (username !== initialValues.username) changes.username = username;
+    if (noGaji !== initialValues.noGaji) changes.noGaji = noGaji;
+    if (jawatan !== initialValues.jawatan) changes.jawatan = jawatan;
+    //if (email !== initialValues.email) changes.email = email;
+
+    // if there are changes, merge them
+    if (Object.keys(changes).length > 0) {
+      const currUser = await getCurrentUser();
+      if (currUser) {
+        // Get the real auth user instance
+        const authUser = getAuth().currentUser;
+        // Use Firebase Auth updateEmail
+        if (authUser && (email !== initialValues.email)) {
+          await sendEmailVerification(authUser);
+          alert("Email pengesahan telah dihantar. Sila semak peti masuk anda untuk mengesahkan email baru.");
+        }
+
+        if (authUser.emailVerified === true) {
+          await updateEmail(authUser, email);
+        }
+
+        const docId = initialValues.uid || currUser.uid;
+        const userRef = doc(db, "userInfo", docId);
+        await setDoc(userRef, changes, { merge: true });
+        alert("Profil Pengguna Berjaya Dikemaskini!");
+
+        // Update initialValues with new changes
+        Object.assign(initialValues, changes);
+      }
+    } else {
+      alert("Tiada perubahan dikesan.");
+    }
+  } catch (error) {
+    console.error("Error updating user profile:", error);
+    alert("Terdapat ralat semasa mengemaskini profil pengguna. Sila cuba lagi.");
+  }
+}
+
+document.getElementById("update-profile-btn").addEventListener("click", updateUserProfile);
+
+</script>
+</html>

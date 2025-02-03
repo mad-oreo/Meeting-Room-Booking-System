@@ -100,7 +100,7 @@
       doc,
       updateDoc
     } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
-    import { db } from "/public/firebaseConfig.js";
+    import { db } from "./script/firebaseConfig.js";
     import { formatDateToDDMMYYYY } from "./script/getSummaryData.js";
     import * as adminActions from "./script/adminAction.js";
 
@@ -126,9 +126,9 @@
 
         // Skip if status is already approved, rejected, or KIV
       if (
-            bookingData.status === "approved" ||
-            bookingData.status === "rejected" ||
-            bookingData.status === "kiv"
+            bookingData.status === "Diluluskan" ||
+            bookingData.status === "Ditolak" ||
+            bookingData.status === "Dalam Perhatian"
       ) return;
 
         const rowNumber = index + 1;

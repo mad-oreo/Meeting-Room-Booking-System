@@ -88,7 +88,11 @@
         </tbody>
       </table>
     </div>
-    <button onclick="exportApprovedTableToXLSX()" class="btn btn-success btn-sm">Export to XLSX</button>
+    <script>
+      let sheetName = "Senarai Pengguna Diluluskan";
+      let xlsxName = "Senarai Pengguna Diluluskan.xlsx";
+    </script>
+    <button onclick="exportTableToXLSX(sheetName, xlsxName)" class="btn btn-success btn-sm">Eksport ke Excel</button>
   </div>
 
   <!-- Bootstrap JS (optional) -->
@@ -99,6 +103,7 @@
     import { getDocs, getDoc, collection, doc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
     import { db } from "/public/firebaseConfig.js";
     import { formatDateToDDMMYYYY } from "./script/getSummaryData.js";
+    import { exportTableToXLSX } from "./script/adminAction.js";
 
     async function loadApprovedBookings() {
       const bookingSnapshot = await getDocs(collection(db, "bookingDetails"));
@@ -116,7 +121,7 @@
         const bookingData = bookingDoc.data();
 
         // Only process approved bookings
-        if (bookingData.status !== "approved") continue;
+        if (bookingData.status !== "Diluluskan") continue;
 
         // Fetch the user document referenced by userId
         const userRef = doc(db, "userInfo", bookingData.userID); // Assuming userId is a string
@@ -148,16 +153,7 @@
 
     window.addEventListener("DOMContentLoaded", loadApprovedBookings);
 
-    // Export table to XLSX function
-    function exportApprovedTableToXLSX() {
-      const table = document.querySelector("table");
-      // Convert table to a workbook
-      const workbook = XLSX.utils.table_to_book(table, { sheet: "ApprovedData" });
-      // Download as .xlsx file
-      XLSX.writeFile(workbook, "approvedBookings.xlsx");
-    }
-
-    window.exportApprovedTableToXLSX = exportApprovedTableToXLSX;
+    window.exportTableToXLSX = exportTableToXLSX;
   </script>
 </body>
 </html>

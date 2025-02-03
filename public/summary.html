@@ -12,6 +12,8 @@
       flex-wrap: wrap;
       gap: 1rem;
       margin: 1rem 0;
+      align-items: center;
+      justify-content: center;
     }
 
     .info-card {
@@ -29,6 +31,17 @@
     .info-card p {
       margin: 0.5rem 0;
     }
+
+    .marker {
+      font-weight: bold;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+      padding: 2rem;
+    }
   </style>
 </head>
 <body>
@@ -38,19 +51,25 @@
 
   <!-- USER INFORMATION -->
   <section id="user-summary">
-    <h2>User Information</h2>
     <div id="user-container" class="info-container"></div>
   </section>
 
   <!-- BOOKING DETAILS -->
   <section id="booking-summary">
-    <h2>Booking Details</h2>
     <div id="booking-container" class="info-container"></div>
   </section>
+
+  <div class="button-container">
+    <button id="main-page-btn" class="login-btn">KEMBALI</button>
+  </div>
+
 
   <script type="module">
     import { getUserData, getBookingData } from './script/getSummaryData.js';
 
+    document.getElementById('main-page-btn').addEventListener('click', () => {
+      window.location.href = 'mainPage.html'; // Change 'index.html' to your main page URL
+    });
     window.addEventListener('DOMContentLoaded', async () => {
       try {
         // Load user information
@@ -63,9 +82,9 @@
           userContainer.innerHTML = `
             <div class="info-card">
               <h3>Maklumat Pengguna</h3>
-              <p>Nama: ${user.username}</p>
-              <p>Nombor Gaji: ${user.noGaji}</p>
-              <p>Jawatan: ${user.jawatan}</p>
+              <p><span class="marker">Nama: </span>${user.username}</p>
+              <p><span class="marker">Nombor Gaji: </span>${user.noGaji}</p>
+              <p><span class="marker">Jawatan: </span>${user.jawatan}</p>
             </div>
           `;
         } else {
@@ -86,13 +105,13 @@
         bookingContainer.innerHTML = `
           <div class="info-card">
             <h3>Maklumat Tempahan</h3>
-            <p>Nama Bilik: ${booking.namaBilik}</p>
-            <p>Tajuk Mesyuarat: ${booking.tajuk}</p>
-            <p>Tarikh Mesyuarat: ${booking.tarikh}</p>
-            <p>Sesi Mesyuarat: ${booking.sesi}</p>
-            <p>Sebab Mesyuarat: ${booking.sebab}</p>
-            <p>Tempahan Makanan: ${booking.makan ? '✔️' : '❌'}</p>
-            <p>Tempahan Minuman: ${booking.minum ? '✔️' : '❌'}</p>
+            <p><span class="marker">Nama Bilik: </span>${booking.namaBilik}</p>
+            <p><span class="marker">Tajuk Mesyuarat: </span>${booking.tajuk}</p>
+            <p><span class="marker">Tarikh Mesyuarat: </span>${booking.tarikh}</p>
+            <p><span class="marker">Sesi Mesyuarat: </span>${booking.sesi}</p>
+            <p><span class="marker">Sebab Mesyuarat: </span>${booking.sebab}</p>
+            <p><span class="marker">Tempahan Makanan: </span>${booking.makan ? '✔️' : '❌'}</p>
+            <p><span class="marker">Tempahan Minuman: </span>${booking.minum ? '✔️' : '❌'}</p>
           </div>
         `;
       } else {
