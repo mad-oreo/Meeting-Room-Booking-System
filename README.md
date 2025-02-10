@@ -1,3 +1,3 @@
 # Meeting Room Booking System
  
-Ada Nigga di sebalik batu
+A booking system for the meeting rooms at Institut Latihan DBKL (IDB). Developed using Google Firebase.
