@@ -15,52 +15,63 @@
 <body>
   <aside class="sidebar">
     <header class="sidebar-header">
-      <a href="adminMain.html" class="header-logo">
-        <img src="img/Coat_of_Arms_of_Kuala_Lumpur.svg" alt="Logo DBKL">
-      </a>
-      <button class="toggler">
-        <span class="material-symbols-outlined">chevron_left</span>
-      </button>
+        <a href="adminMain.html" class="header-logo">
+            <img src="img/Coat_of_Arms_of_Kuala_Lumpur.svg" alt="Logo DBKL">
+        </a>
     </header>
-
     <nav class="sidebar-nav">
-      <ul class="nav-list primary-nav">
-        <li class="nav-item">
-          <a href="adminManageUser.html" class="nav-link">
-            <span class="material-symbols-outlined">home</span>
-            <span class="nav-label">Mengurus Tempahan</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="material-symbols-outlined">home</span>
-            <span class="nav-label">Mengurus Bilik</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="material-symbols-outlined">home</span>
-            <span class="nav-label">Statistik Tempahan</span>
-          </a>
-        </li>
-      </ul>
+        <ul class="nav-list primary-nav">
+            <li class="nav-item">
+                <a href="adminManageUser.html" class="nav-link">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="nav-label">Mengurus Tempahan</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <div class="icon-link">
+                    <a href="#" class="nav-link">
+                        <span class="material-symbols-outlined">home</span>
+                        <span class="nav-label">Senarai Tempahan</span>
+                        <span class="material-symbols-outlined" id="arrow-down">keyboard_arrow_down</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li><a href="adminApproved.html">Tempahan Diluluskan</a></li>
+                        <li><a href="adminRejected.html">Tempahan Ditolak</a></li>
+                        <li><a href="adminKIV.html">Tempahan Didalam Perhatian</a></li>
+                    </ul>
+                </div>
+            </li>
+            <!-- <li class="nav-item">
+                <a href="adminManageRoom.html" class="nav-link">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="nav-label">Mengurus Bilik</span>
+                </a>
+            </li> -->
+            <li class="nav-item">
+                <a href="adminReport.html" class="nav-link">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="nav-label">Statistik Tempahan</span>
+                </a>
+            </li>
+        </ul>
 
-      <ul class="nav-list secondary-nav">
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="material-symbols-outlined">account_circle</span>
-            <span class="nav-label">Profil</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="material-symbols-outlined">logout</span>
-            <span class="nav-label">Log Keluar</span>
-          </a>
-        </li>
-      </ul>
+        <ul class="nav-list secondary-nav">
+            <!-- <li class="nav-item">
+                <a href="adminProfile.html" class="nav-link">
+                    <span class="material-symbols-outlined">account_circle</span>
+                    <span class="nav-label">Profil</span>
+                </a>
+            </li> -->
+            <li class="nav-item">
+                <a href="adminLogin.html" class="nav-link">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span class="nav-label">Log Keluar</span>
+                </a>
+            </li>
+        </ul>
     </nav>
-  </aside>  
+</aside>
+
 
   <div class="main-content p-4">
     <div class="header mb-4">
@@ -135,7 +146,7 @@
         const formattedDate = formatDateToDDMMYYYY(bookingData.tarikh);
 
         const row = document.createElement("tr");
-        row.innerHTML = `
+        row.innerHTML = ` 
           <td>${rowNumber}</td>
           <td>${userData.username ?? "N/A"}</td>
           <td>${bookingData.namaBilik ?? "N/A"}</td>

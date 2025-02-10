@@ -20,9 +20,7 @@
         <a href="adminMain.html" class="header-logo">
             <img src="img/Coat_of_Arms_of_Kuala_Lumpur.svg" alt="Logo DBKL">
         </a>
-        <button class="toggler">
-            <span class="material-symbols-outlined">chevron_left</span>
-        </button>
+       
     </header>
 
     <nav class="sidebar-nav">
@@ -33,14 +31,28 @@
                     <span class="nav-label">Mengurus Tempahan</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
+            <div class="icon-link">
+                <a href="#" class="nav-link" style="display: flex; align-items: center;">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="nav-label">Senarai Tempahan</span>
+                    <span class="material-symbols-outlined" id="arrow-down" style="margin-left: auto;">keyboard_arrow_down</span>
+                </a>
+                <ul class="sub-menu" id="sub-menu">
+                    <li><a href="adminApproved.html">Tempahan Diluluskan</a></li>
+                    <li><a href="adminRejected.html">Tempahan Ditolak</a></li>
+                    <li><a href="adminKIV.html">Tempahan Didalam Perhatian</a></li>
+                </ul>
+            </div>
+
+
+            <!-- <li class="nav-item">
+                <a href="adminManageRoom.html" class="nav-link">
                     <span class="material-symbols-outlined">home</span>
                     <span class="nav-label">Mengurus Bilik</span>
                 </a>
-            </li>
+            </li> -->
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="adminReport.html" class="nav-link">
                     <span class="material-symbols-outlined">home</span>
                     <span class="nav-label">Statistik Tempahan</span>
                 </a>
@@ -48,26 +60,39 @@
         </ul>
 
         <ul class="nav-list secondary-nav">
-            <li class="nav-item">
-                <a href="#" class="nav-link">
+            <!-- <li class="nav-item">
+                <a href="adminProfile.html" class="nav-link">
                     <span class="material-symbols-outlined">account_circle</span>
                     <span class="nav-label">Profil</span>
                 </a>
-            </li>
+            </li> -->
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="adminLogin.html" class="nav-link">
                     <span class="material-symbols-outlined">logout</span>
                     <span class="nav-label">Log Keluar</span>
                 </a>
             </li>
         </ul>
-    </nav>
   </aside>  
 
   <div class="main-content p-4">
     <div class="header mb-4">
-      <h1>Senarai Pengguna Diluluskan</h1>
+      <h1>Senarai Tempahan Diluluskan</h1>
     </div>
+
+    <!-- Sorting Options -->
+    <div class="sorting-options">
+      <label for="sort-by">Susun Mengikut:</label>
+      <select id="sort-by">
+        <option value="date-asc">Tarikh (Menaik)</option>
+        <option value="date-desc">Tarikh (Menurun)</option>
+        <option value="session-pagi">Sesi (Pagi)</option>
+        <option value="session-petang">Sesi (Petang)</option>
+        <option value="room-asc">Bilik (A - Z)</option>
+        <option value="room-desc">Bilik (Z - A)</option>
+      </select>
+    </div>
+
     <div class="table-responsive">
       <table class="table table-striped table-bordered align-middle">
         <thead class="table-dark">
@@ -101,11 +126,11 @@
   </script>
   <script type="module">
     import { getDocs, getDoc, collection, doc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
-    import { db } from "/public/firebaseConfig.js";
+    import { db } from "./script/firebaseConfig.js";
     import { formatDateToDDMMYYYY } from "./script/getSummaryData.js";
     import { exportTableToXLSX } from "./script/adminAction.js";
 
-    async function loadApprovedBookings() {
+    async function loadApprovedBookings(sortBy) {
       const bookingSnapshot = await getDocs(collection(db, "bookingDetails"));
 
       // Clear existing rows
@@ -116,12 +141,26 @@
       const bookingDocs = bookingSnapshot.docs; // convert to array
       let rowNumber = 0;
 
-      for (let index = 0; index < bookingDocs.length; index++) {
-        const bookingDoc = bookingDocs[index];
-        const bookingData = bookingDoc.data();
+      // Filter and sort bookings based on the selected criteria
+      let approvedBookings = bookingDocs.filter(doc => doc.data().status === "Diluluskan");
 
-        // Only process approved bookings
-        if (bookingData.status !== "Diluluskan") continue;
+      if (sortBy === "date-asc") {
+        approvedBookings.sort((a, b) => new Date(a.data().tarikh) - new Date(b.data().tarikh));
+      } else if (sortBy === "date-desc") {
+        approvedBookings.sort((a, b) => new Date(b.data().tarikh) - new Date(a.data().tarikh));
+      } else if (sortBy === "session-pagi") {
+        approvedBookings = approvedBookings.filter(doc => doc.data().sesi === "pagi");
+      } else if (sortBy === "session-petang") {
+        approvedBookings = approvedBookings.filter(doc => doc.data().sesi === "petang");
+      } else if (sortBy === "room-asc") {
+        approvedBookings.sort((a, b) => a.data().namaBilik.localeCompare(b.data().namaBilik));
+      } else if (sortBy === "room-desc") {
+        approvedBookings.sort((a, b) => b.data().namaBilik.localeCompare(a.data().namaBilik));
+      }
+
+      for (let index = 0; index < approvedBookings.length; index++) {
+        const bookingDoc = approvedBookings[index];
+        const bookingData = bookingDoc.data();
 
         // Fetch the user document referenced by userId
         const userRef = doc(db, "userInfo", bookingData.userID); // Assuming userId is a string
@@ -151,7 +190,13 @@
       }
     }
 
-    window.addEventListener("DOMContentLoaded", loadApprovedBookings);
+    // Event listener for sorting
+    document.getElementById('sort-by').addEventListener('change', (e) => {
+      loadApprovedBookings(e.target.value);
+    });
+
+    // Initial load
+    loadApprovedBookings("date-asc");
 
     window.exportTableToXLSX = exportTableToXLSX;
   </script>

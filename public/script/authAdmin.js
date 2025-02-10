@@ -88,7 +88,7 @@ export async function adminLogin() {
             // Signed in 
             const admin = userCredential.user;
             alert('Log Masuk Berjaya');
-            window.location.href = 'adminMain.html';
+            window.location.href = 'adminManageUser.html';
         })
         .catch((error) => {
             const errorCode = error.code;

@@ -341,14 +341,6 @@ body {
     position: relative;
 }
 
-/* .form-group input {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding-right: 40px;
-} */
-
 .form-group-pic img {
     position: absolute;
     width: 27px;
@@ -512,7 +504,7 @@ form .input-box {
     width: 100%;
     outline: none;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid black;
     font-size: 16px;
     padding-left: 15px;
     font-family: "montserrat", sans-serif;

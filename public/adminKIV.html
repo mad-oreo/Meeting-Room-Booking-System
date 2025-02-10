@@ -16,57 +16,82 @@
 <body>
   <aside class="sidebar">
     <header class="sidebar-header">
-      <a href="adminMain.html" class="header-logo">
-        <img src="img/Coat_of_Arms_of_Kuala_Lumpur.svg" alt="Logo DBKL">
-      </a>
-      <button class="toggler">
-        <span class="material-symbols-outlined">chevron_left</span>
-      </button>
+        <a href="adminMain.html" class="header-logo">
+            <img src="img/Coat_of_Arms_of_Kuala_Lumpur.svg" alt="Logo DBKL">
+        </a>
+       
     </header>
 
     <nav class="sidebar-nav">
-      <ul class="nav-list primary-nav">
-        <li class="nav-item">
-          <a href="adminManageUser.html" class="nav-link">
-            <span class="material-symbols-outlined">home</span>
-            <span class="nav-label">Mengurus Tempahan</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="material-symbols-outlined">home</span>
-            <span class="nav-label">Mengurus Bilik</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="material-symbols-outlined">home</span>
-            <span class="nav-label">Statistik Tempahan</span>
-          </a>
-        </li>
-      </ul>
+        <ul class="nav-list primary-nav">
+            <li class="nav-item">
+                <a href="adminManageUser.html" class="nav-link">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="nav-label">Mengurus Tempahan</span>
+                </a>
+            </li>
+            <div class="icon-link">
+                <a href="#" class="nav-link" style="display: flex; align-items: center;">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="nav-label">Senarai Tempahan</span>
+                    <span class="material-symbols-outlined" id="arrow-down" style="margin-left: auto;">keyboard_arrow_down</span>
+                </a>
+                <ul class="sub-menu" id="sub-menu">
+                    <li><a href="adminApproved.html">Tempahan Diluluskan</a></li>
+                    <li><a href="adminRejected.html">Tempahan Ditolak</a></li>
+                    <li><a href="adminKIV.html">Tempahan Didalam Perhatian</a></li>
+                </ul>
+            </div>
 
-      <ul class="nav-list secondary-nav">
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="material-symbols-outlined">account_circle</span>
-            <span class="nav-label">Profil</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="material-symbols-outlined">logout</span>
-            <span class="nav-label">Log Keluar</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+
+            <!-- <li class="nav-item">
+                <a href="adminManageRoom.html" class="nav-link">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="nav-label">Mengurus Bilik</span>
+                </a>
+            </li> -->
+            <li class="nav-item">
+                <a href="adminReport.html" class="nav-link">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="nav-label">Statistik Tempahan</span>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="nav-list secondary-nav">
+            <!-- <li class="nav-item">
+                <a href="adminProfile.html" class="nav-link">
+                    <span class="material-symbols-outlined">account_circle</span>
+                    <span class="nav-label">Profil</span>
+                </a>
+            </li> -->
+            <li class="nav-item">
+                <a href="adminLogin.html" class="nav-link">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span class="nav-label">Log Keluar</span>
+                </a>
+            </li>
+        </ul>
   </aside>  
 
   <div class="main-content p-4">
     <div class="header mb-4">
       <h1>Senarai Tempahan Didalam Perhatian</h1>
     </div>
+
+    <!-- Sorting Options -->
+    <div class="sorting-options">
+      <label for="sort-by">Susun Mengikut:</label>
+      <select id="sort-by">
+        <option value="date-asc">Tarikh (Menaik)</option>
+        <option value="date-desc">Tarikh (Menurun)</option>
+        <option value="session-pagi">Sesi (Pagi)</option>
+        <option value="session-petang">Sesi (Petang)</option>
+        <option value="room-asc">Bilik (A - Z)</option>
+        <option value="room-desc">Bilik (Z - A)</option>
+      </select>
+    </div>
+
     <div class="table-responsive">
       <table class="table table-striped table-bordered align-middle">
         <thead class="table-dark">
@@ -105,7 +130,9 @@
     import { formatDateToDDMMYYYY } from "./script/getSummaryData.js";
     import * as adminActions from "./script/adminAction.js";
 
-    async function loadKIVBookings() {
+   
+
+    async function loadKIVBookings(sortBy) {
       const bookingSnapshot = await getDocs(collection(db, "bookingDetails"));
 
       // Clear existing rows
@@ -116,8 +143,25 @@
       const bookingDocs = bookingSnapshot.docs; // convert to array
       let rowNumber = 0;
 
-      for (let index = 0; index < bookingDocs.length; index++) {
-        const bookingDoc = bookingDocs[index];
+      // Filter and sort bookings based on the selected criteria
+      let kivBookings = bookingDocs.filter(doc => doc.data().status === "Dalam Perhatian");
+
+      if (sortBy === "date-asc") {
+        kivBookings.sort((a, b) => new Date(a.data().tarikh) - new Date(b.data().tarikh));
+      } else if (sortBy === "date-desc") {
+        kivBookings.sort((a, b) => new Date(b.data().tarikh) - new Date(a.data().tarikh));
+      } else if (sortBy === "session-pagi") {
+        kivBookings = kivBookings.filter(doc => doc.data().sesi === "pagi");
+      } else if (sortBy === "session-petang") {
+        kivBookings = kivBookings.filter(doc => doc.data().sesi === "petang");
+      } else if (sortBy === "room-asc") {
+        kivBookings.sort((a, b) => a.data().namaBilik.localeCompare(b.data().namaBilik));
+      } else if (sortBy === "room-desc") {
+        kivBookings.sort((a, b) => b.data().namaBilik.localeCompare(a.data().namaBilik));
+      }
+
+      for (let index = 0; index < kivBookings.length; index++) {
+        const bookingDoc = kivBookings[index];
         const bookingData = bookingDoc.data();
 
         // Only process KIV bookings
@@ -154,12 +198,18 @@
         tableBody.appendChild(row);
       }
 
-      // Call the imported functions to add event listeners after rows are appended
-      adminActions.approvedUser();
-      adminActions.rejectedUser();
+      
+        adminActions.approvedUser();
+        adminActions.rejectedUser();
     }
 
-    window.addEventListener("DOMContentLoaded", loadKIVBookings);
+    // Event listener for sorting
+    document.getElementById('sort-by').addEventListener('change', (e) => {
+      loadKIVBookings(e.target.value);
+    });
+    
+    // Initial load
+    loadKIVBookings("date-asc");
 
     window.exportTableToXLSX = adminActions.exportTableToXLSX;
     window.adminActions = adminActions;
