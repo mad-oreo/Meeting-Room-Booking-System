@@ -62,6 +62,27 @@
       padding: 4px;
     }
 
+    .logout-container {
+      display: flex;
+      justify-content: center;
+      margin: 2rem 0;
+    }
+
+    .logout-btn {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background-color: #c82333;
+    }
+
   </style>
   
     <h1>Profil Pengguna</h1>
@@ -81,6 +102,10 @@
               <label for="jawatan">Jawatan:</label>
               <input type="text" id="jawatan" name="jawatan">
             </div>
+            <div class="input-box profile">
+              <label for="email">Emel:</label>
+              <input type="email" id="email" name="email" readonly>
+            </div>
             <button type="button" id="update-profile-btn" class="update-action">KEMAS KINI</button>
 
         </fieldset>
@@ -88,15 +113,7 @@
 
       <form class="info-form user-right">
         <fieldset class="user-info-auth">
-            <legend>Emel & Kata Laluan</legend>
-            <div class="input-box profile">
-              <label for="email">Emel:</label>
-              <input type="email" id="email" name="email" readonly>
-            </div>
-            <div class="input-box profile">
-              <label for="email">Emel Baru:</label>
-              <input type="email" id="email-new" name="email">
-            </div>
+            <legend>Tukar Kata Laluan</legend>
             <div class="input-box profile">
               <label for="password">Kata Laluan Lama:</label>
               <input type="password" id="old-password" name="password">
@@ -109,16 +126,19 @@
               <label for="confirm-password">Sahkan Kata Laluan:</label>
               <input type="password" id="confirm-password" name="confirm-password">  
             </div>
-            <button type="button" id="update-email-pass" class="update-action">KEMAS KINI</button>
+            <button type="button" id="update-pass" class="update-action">KEMAS KINI</button>
         </fieldset>
     </section>
-  <div id="footer-placeholder"></div>
+    <div class="logout-container">
+      <button id="logout-btn" class="logout-btn">Log Keluar</button>
+    </div>
+    <div id="footer-placeholder"></div>
 </body>
 <script type="module">
 import { getDocs, getDoc, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 import { db } from "./script/firebaseConfig.js";
 import { getUserData, getCurrentUser } from "./script/getSummaryData.js";
-import { getAuth, updateEmail, verifyBeforeUpdateEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential, sendEmailVerification } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+import { getAuth, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 
 let initialValues = {}; // store the original values for comparison
 
@@ -133,12 +153,14 @@ async function loadUserProfile() {
       document.getElementById("username").value = user.username;
       document.getElementById("noGaji").value = user.noGaji;
       document.getElementById("jawatan").value = user.jawatan;
+      document.getElementById("email").value = user.email;
 
       // store the original values
       initialValues = {
         username: user.username || "",
         noGaji: user.noGaji || "",
         jawatan: user.jawatan || "",
+        email: user.email || "",
         id: user.userID // make sure you keep track of the user doc ID somewhere
       };
     }
@@ -169,7 +191,6 @@ async function updateUserProfile() {
     if (username !== initialValues.username) changes.username = username;
     if (noGaji !== initialValues.noGaji) changes.noGaji = noGaji;
     if (jawatan !== initialValues.jawatan) changes.jawatan = jawatan;
-    //if (email !== initialValues.email) changes.email = email;
 
     // if there are changes, merge them
     if (Object.keys(changes).length > 0) {
@@ -200,56 +221,38 @@ document.getElementById("update-profile-btn").addEventListener("click", updateUs
 const auth = getAuth();
 
 
-async function updateEmailAndPassword() {
+async function updateUserPassword() {
   const auth = getAuth();
   const user = auth.currentUser;
   if (!user) return;
 
-  const newEmail = document.getElementById('email-new').value.trim();
-  const newPassword = document.getElementById('new-password').value.trim();
-  const confirmPassword = document.getElementById('confirm-password').value.trim();
-  let updatedSomething = false;
+  const oldPassword = document.getElementById("old-password").value.trim();
+  const newPassword = document.getElementById("new-password").value.trim();
+  const confirmPassword = document.getElementById("confirm-password").value.trim();
+
+  if (!oldPassword) {
+    alert("Sila masukkan kata laluan lama anda untuk pengesahan.");
+    return;
+  }
 
   try {
-    // If user entered a new email, send verification email
-    if (newEmail !== initialValues.email) {
-      try {
-        // Send verification link to new email—doesn’t block the update
-        await verifyBeforeUpdateEmail(user, newEmail);
-        alert("Pautan pengesahan telah dihantar ke emel baharu! Sila sahkan emel anda sebelum meneruskan.");
+    const credential = EmailAuthProvider.credential(user.email, oldPassword);
+    await reauthenticateWithCredential(user, credential);
 
-        // Wait for user confirmation
-        const confirmed = confirm("Adakah anda telah mengesahkan emel baharu anda?");
-        if (!confirmed) {
-          alert("Sila sahkan emel baharu anda sebelum meneruskan.");
-          return;
-        }
-        // Update the email
-        await updateEmail(user, newEmail);
-        alert("Emel berjaya dikemaskini!");
-        updatedSomething = true;
-      } catch (error) {
-        console.error("Masalah mengemaskini emel!", error);
-        alert("Anda akan dialihkan ke halaman log masuk untuk mengesahkan emel baharu anda.");
-        window.location.href = 'loginPageUser.html';
-        //alert("Masalah mengemaskini emel!");
+    // Now update the password
+    if (newPassword) {
+      if (newPassword.length < 6) {
+        alert("Kata laluan baru hendaklah sekurang-kurangnya 6 aksara.");
         return;
       }
-    }
-
-    // If user entered a new password, update it
-    if (newPassword) {
       if (newPassword !== confirmPassword) {
         alert("Kata laluan tidak sepadan.");
         return;
       }
       await updatePassword(user, newPassword);
       alert("Kata laluan berjaya ditukar!");
-      updatedSomething = true;
-    }
-
-    if (!updatedSomething) {
-      alert("Tiada tindakan diambil. Sila masukkan emel baharu atau kata laluan baharu.");
+    } else {
+      alert("Tiada tindakan diambil. Sila masukkan kata laluan baharu.");
     }
   } catch (error) {
     console.error("Masalah mengemaskini profil pengguna:", error);
@@ -257,6 +260,19 @@ async function updateEmailAndPassword() {
   }
 }
 
-document.getElementById('update-email-pass').addEventListener('click', updateEmailAndPassword);
+document.getElementById('update-pass').addEventListener('click', updateUserPassword);
+
+// Add this to your existing script
+// Logout functionality
+document.getElementById('logout-btn').addEventListener('click', async () => {
+  const auth = getAuth();
+  try {
+    await auth.signOut();
+    window.location.href = 'loginPageUser.html';
+  } catch (error) {
+    console.error("Error signing out:", error);
+    alert("Terdapat ralat semasa log keluar. Sila cuba lagi.");
+  }
+});
 </script>
 </html>

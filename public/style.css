@@ -1,4 +1,3 @@
-
 :root {
     --primary-orange: #f47820;
     --white: #f2f2f2;
@@ -628,6 +627,45 @@ footer {
         flex: 1 1 100%; /* Full width boxes on small screens */
         max-width: 100%;
     }
+}
+
+@media (max-width: 576px) {
+  /* Reduce top/bottom padding and font sizes on very small screens */
+  .top {
+    margin-bottom: 1.5rem;
+  }
+  .top-title {
+    font-size: 1.5rem;
+  }
+
+  /* Resize the “Tempah” button */
+  .tempah-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  /* Stack each room card in a single column */
+  .column-bilik {
+    flex-direction: column;
+    align-items: center;
+  }
+  .bilik-zamrud,
+  .bilik-delima,
+  .bilik-safir,
+  .bilik-nilam {
+    max-width: 90%;
+    margin: 0.5rem 0;
+  }
+
+  /* Footer spacing adjustments */
+  .footer h2 {
+    margin-bottom: 0.5rem;
+  }
+  .footer-address,
+  .footer-misc {
+    width: 100%;
+    text-align: center;
+  }
 }
 
 /* Slider */

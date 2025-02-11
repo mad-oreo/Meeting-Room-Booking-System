@@ -128,6 +128,10 @@ body {
     border-radius: 8px;
 }
 
+.nav-label {
+    font-size: 14px;
+}
+
 /* Ensure the main content starts to the right
    so the sidebar doesn't overlap */
 .main-content {
@@ -176,7 +180,7 @@ body {
 /* Reduce spacing in .table-responsive */
 .table-responsive {
   margin: 0;
-  padding: 0;
+  padding: 2rem;
 }
 
 /* Reduce table spacing */

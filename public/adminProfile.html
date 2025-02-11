@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="adminStyle.css">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
-    <title>Tempahan Bilik Mesyuarat</title>
+    <title>Profil Pentadbir</title>
 </head>
 <body>
   <aside class="sidebar">
@@ -16,40 +16,38 @@
         <a href="adminMain.html" class="header-logo">
             <img src="img/Coat_of_Arms_of_Kuala_Lumpur.svg" alt="Logo DBKL">
         </a>
-       
     </header>
-
     <nav class="sidebar-nav">
         <ul class="nav-list primary-nav">
+          <li class="nav-item">
+            <a href="adminMain.html" class="nav-link">
+                <span class="material-symbols-outlined">home</span>
+                <span class="nav-label">Laman Utama</span>
+            </a>
+        </li>
             <li class="nav-item">
                 <a href="adminManageUser.html" class="nav-link">
-                    <span class="material-symbols-outlined">home</span>
-                    <span class="nav-label">Mengurus Tempahan</span>
+                    <span class="material-symbols-outlined">manage_accounts</span>
+                    <span class="nav-label">Urus Tempahan</span>
                 </a>
             </li>
-            <div class="icon-link">
-                <a href="#" class="nav-link" style="display: flex; align-items: center;">
-                    <span class="material-symbols-outlined">home</span>
-                    <span class="nav-label">Senarai Tempahan</span>
-                    <span class="material-symbols-outlined" id="arrow-down" style="margin-left: auto;">keyboard_arrow_down</span>
-                </a>
-                <ul class="sub-menu" id="sub-menu">
-                    <li><a href="adminApproved.html">Tempahan Diluluskan</a></li>
-                    <li><a href="adminRejected.html">Tempahan Ditolak</a></li>
-                    <li><a href="adminKIV.html">Tempahan Didalam Perhatian</a></li>
-                </ul>
-            </div>
-
-
             <li class="nav-item">
-                <a href="adminManageRoom.html" class="nav-link">
-                    <span class="material-symbols-outlined">home</span>
-                    <span class="nav-label">Mengurus Bilik</span>
-                </a>
+                <div class="icon-link">
+                    <a href="#" class="nav-link">
+                        <span class="material-symbols-outlined">list</span>
+                        <span class="nav-label">Senarai Tempahan</span>
+                        <span class="material-symbols-outlined" id="arrow-down">keyboard_arrow_down</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li><a href="adminApproved.html">Tempahan Diluluskan</a></li>
+                        <li><a href="adminRejected.html">Tempahan Ditolak</a></li>
+                        <li><a href="adminKIV.html">Tempahan Didalam Perhatian</a></li>
+                    </ul>
+                </div>
             </li>
             <li class="nav-item">
                 <a href="adminReport.html" class="nav-link">
-                    <span class="material-symbols-outlined">home</span>
+                    <span class="material-symbols-outlined">analytics</span>
                     <span class="nav-label">Statistik Tempahan</span>
                 </a>
             </li>
@@ -62,27 +60,23 @@
                     <span class="nav-label">Profil</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="adminLogin.html" class="nav-link">
-                    <span class="material-symbols-outlined">logout</span>
-                    <span class="nav-label">Log Keluar</span>
-                </a>
-            </li>
         </ul>
-  </aside>  
+    </nav>
+</aside>
 
   <style>
     h1 {
       text-align: center;
       margin-top: 1rem;
+      margin-left: 24rem;
     }
-
     .user-form {
       display: flex;
       justify-content: center;
       gap: 2rem;
       margin-top: 2rem;
       padding: 1rem; /* some padding to breathe */
+      margin-left: 300px;
     }
 
     /* Shared styling for both forms */
@@ -108,26 +102,48 @@
     }
 
     fieldset {
-      border: 1px solid #ccc;
+      border: none;
       border-radius: 5px;
       padding: 1rem;
       width: 100%; /* make fieldset fill the form width */
     }
 
     legend {
-      font-size: 1.2rem;
+      font-size: 20px;
       font-weight: bold;
+       
     }
 
-    
     label {
       font-weight: bold;
       padding: 4px;
     }
 
+    .logout-container {
+      display: flex;
+      justify-content: center;
+      margin: 2rem 0;
+      margin-left: 300px;
+    }
+
+    .logout-btn {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background-color: #c82333;
+    }
+
   </style>
   
-    <h1>Profil Pengguna</h1>
+    <h1>Profil Pentadbir</h1>
     <section class="user-form">
       <form class="info-form user-left">
         <fieldset class="user-info">
@@ -144,6 +160,10 @@
               <label for="jawatan">Jawatan:</label>
               <input type="text" id="jawatan" name="jawatan">
             </div>
+            <div class="input-box profile">
+              <label for="email">Emel:</label>
+              <input type="email" id="email" name="email" readonly>
+            </div>
             <button type="button" id="update-profile-btn" class="update-action">KEMAS KINI</button>
 
         </fieldset>
@@ -152,14 +172,6 @@
       <form class="info-form user-right">
         <fieldset class="user-info-auth">
             <legend>Emel & Kata Laluan</legend>
-            <div class="input-box profile">
-              <label for="email">Emel:</label>
-              <input type="email" id="email" name="email" readonly>
-            </div>
-            <div class="input-box profile">
-              <label for="email">Emel Baru:</label>
-              <input type="email" id="email-new" name="email">
-            </div>
             <div class="input-box profile">
               <label for="password">Kata Laluan Lama:</label>
               <input type="password" id="old-password" name="password">
@@ -172,26 +184,27 @@
               <label for="confirm-password">Sahkan Kata Laluan:</label>
               <input type="password" id="confirm-password" name="confirm-password">  
             </div>
-            <button type="button" id="update-email-pass" class="update-action">KEMAS KINI</button>
+            <button type="button" id="update-pass" class="update-action">KEMAS KINI</button>
         </fieldset>
     </section>
 
-
-
+    <div class="logout-container">
+      <button id="logout-btn" class="logout-btn">Log Keluar</button>
+    </div>
 
   <div id="footer-placeholder"></div>
 </body>
 <script type="module">
     import { getDocs, getDoc, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 import { db } from "./script/firebaseConfig.js";
-import { getUserData, getCurrentUser } from "./script/getSummaryData.js";
-import { getAuth, updateEmail, verifyBeforeUpdateEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential, sendEmailVerification } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+import { getAdminData, getCurrentUser } from "./script/authAdmin.js";
+import { getAuth, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 
 let initialValues = {}; // store the original values for comparison
 
-async function loadUserProfile() {
+async function loadAdminProfile() {
   try {
-    const currUserData = await getUserData();
+    const currUserData = await getAdminData();
     console.log("Current User:", currUserData);
 
     if (currUserData.length > 0) {
@@ -222,9 +235,9 @@ async function loadUserProfile() {
     alert("Terdapat ralat semasa memuatkan profil pengguna. Sila cuba lagi.");
   }
 }
-loadUserProfile();
+loadAdminProfile();
 
-async function updateUserProfile() {
+async function updateAdminProfile() {
   try {
     const username = document.getElementById("username").value;
     const noGaji = document.getElementById("noGaji").value;
@@ -236,7 +249,6 @@ async function updateUserProfile() {
     if (username !== initialValues.username) changes.username = username;
     if (noGaji !== initialValues.noGaji) changes.noGaji = noGaji;
     if (jawatan !== initialValues.jawatan) changes.jawatan = jawatan;
-    //if (email !== initialValues.email) changes.email = email;
 
     // if there are changes, merge them
     if (Object.keys(changes).length > 0) {
@@ -246,7 +258,7 @@ async function updateUserProfile() {
         const authUser = getAuth().currentUser;
 
         const docId = initialValues.uid || currUser.uid;
-        const userRef = doc(db, "userInfo", docId);
+        const userRef = doc(db, "adminInfo", docId);
         await setDoc(userRef, changes, { merge: true });
         alert("Profil Pengguna Berjaya Dikemaskini!");
 
@@ -262,61 +274,43 @@ async function updateUserProfile() {
   }
 }
 
-document.getElementById("update-profile-btn").addEventListener("click", updateUserProfile);
+document.getElementById("update-profile-btn").addEventListener("click", updateAdminProfile);
 
 const auth = getAuth();
 
 
-async function updateEmailAndPassword() {
+async function updateAdminPassword() {
   const auth = getAuth();
   const user = auth.currentUser;
   if (!user) return;
 
-  const newEmail = document.getElementById('email-new').value.trim();
-  const newPassword = document.getElementById('new-password').value.trim();
-  const confirmPassword = document.getElementById('confirm-password').value.trim();
-  let updatedSomething = false;
+  const oldPassword = document.getElementById("old-password").value.trim();
+  const newPassword = document.getElementById("new-password").value.trim();
+  const confirmPassword = document.getElementById("confirm-password").value.trim();
+
+  if (!oldPassword) {
+    alert("Sila masukkan kata laluan lama anda untuk pengesahan.");
+    return;
+  }
 
   try {
-    // If user entered a new email, send verification email
-    if (newEmail) {
-      try {
-        // Send verification link to new email—doesn’t block the update
-        await verifyBeforeUpdateEmail(user, newEmail);
-        alert("Pautan pengesahan telah dihantar ke emel baharu! Sila sahkan emel anda sebelum meneruskan.");
+    const credential = EmailAuthProvider.credential(user.email, oldPassword);
+    await reauthenticateWithCredential(user, credential);
 
-        // Wait for user confirmation
-        const confirmed = confirm("Adakah anda telah mengesahkan emel baharu anda?");
-        if (!confirmed) {
-          alert("Sila sahkan emel baharu anda sebelum meneruskan.");
-          return;
-        }
-        // Update the email
-        await updateEmail(user, newEmail);
-        alert("Emel berjaya dikemaskini!");
-        updatedSomething = true;
-      } catch (error) {
-        console.error("Masalah mengemaskini emel!", error);
-        alert("Anda akan dialihkan ke halaman log masuk untuk mengesahkan emel baharu anda.");
-        window.location.href = 'loginPageUser.html';
-        //alert("Masalah mengemaskini emel!");
+    // Now update the password
+    if (newPassword) {
+      if (newPassword.length < 6) {
+        alert("Kata laluan baru hendaklah sekurang-kurangnya 6 aksara.");
         return;
       }
-    }
-
-    // If user entered a new password, update it
-    if (newPassword) {
       if (newPassword !== confirmPassword) {
         alert("Kata laluan tidak sepadan.");
         return;
       }
       await updatePassword(user, newPassword);
       alert("Kata laluan berjaya ditukar!");
-      updatedSomething = true;
-    }
-
-    if (!updatedSomething) {
-      alert("Tiada tindakan diambil. Sila masukkan emel baharu atau kata laluan baharu.");
+    } else {
+      alert("Tiada tindakan diambil. Sila masukkan kata laluan baharu.");
     }
   } catch (error) {
     console.error("Masalah mengemaskini profil pengguna:", error);
@@ -324,7 +318,20 @@ async function updateEmailAndPassword() {
   }
 }
 
-document.getElementById('update-email-pass').addEventListener('click', updateEmailAndPassword);
+document.getElementById('update-pass').addEventListener('click', updateAdminPassword);
+
+// Add this to your existing script
+// Logout functionality
+document.getElementById('logout-btn').addEventListener('click', async () => {
+  const auth = getAuth();
+  try {
+    await auth.signOut();
+    window.location.href = 'adminLogin.html';
+  } catch (error) {
+    console.error("Error signing out:", error);
+    alert("Terdapat ralat semasa log keluar. Sila cuba lagi.");
+  }
+});
 </script>
 
 </body>

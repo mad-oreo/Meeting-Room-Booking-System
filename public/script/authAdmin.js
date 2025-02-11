@@ -1,7 +1,8 @@
 import { auth, app, db } from './firebaseConfig.js';
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
-import { setDoc, doc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
+import { setDoc, doc, collection, getDocs, query, where, documentId } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 import { addUserData } from './getPostData.js';
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 
 export async function adminRegister() {
   
@@ -88,7 +89,7 @@ export async function adminLogin() {
             // Signed in 
             const admin = userCredential.user;
             alert('Log Masuk Berjaya');
-            window.location.href = 'adminManageUser.html';
+            window.location.href = 'adminMain.html';
         })
         .catch((error) => {
             const errorCode = error.code;
@@ -100,4 +101,43 @@ export async function adminLogin() {
             }
         });
     });
+}
+
+export function getCurrentUser() {
+  return new Promise((resolve) => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        // Return both uid and email
+        resolve({ uid: currentUser.uid, email: currentUser.email });
+      } else {
+        resolve(null);
+      }
+    });
+  });
+}
+
+export async function getAdminData() {
+  try {
+    // 1) Wait for the authenticated user object.
+    const currentUser = await getCurrentUser();
+    if (!currentUser) {
+      console.log("No user found.");
+      return [];
+    }
+
+    // 2) Query Firestore by the user’s UID
+    const userRef = collection(db, "adminInfo");
+    const q = query(userRef, where(documentId(), "==", currentUser.uid));
+
+    // 3) Use the authenticated user’s email
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({
+      ...doc.data(),
+      email: currentUser.email  // Attach the user’s email
+    }));
+  } catch (err) {
+    console.error("Error fetching user data:", err);
+    return [];
+  }
 }

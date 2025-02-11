@@ -1,81 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>KIV Bookings</title>
-  <link rel="stylesheet" href="adminStyle.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap" rel="stylesheet">
-  <!-- Bootstrap CSS -->
-  <link 
-    rel="stylesheet" 
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-  />
-  <script src="https://cdn.sheetjs.com/xlsx-0.19.1/package/dist/xlsx.full.min.js"></script>
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="adminStyle.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+      <title>Permohonan Ditolak</title>
+      <script src="https://cdn.sheetjs.com/xlsx-0.19.1/package/dist/xlsx.full.min.js"></script>
+  </head>
 <body>
   <aside class="sidebar">
     <header class="sidebar-header">
         <a href="adminMain.html" class="header-logo">
             <img src="img/Coat_of_Arms_of_Kuala_Lumpur.svg" alt="Logo DBKL">
         </a>
-       
     </header>
-
     <nav class="sidebar-nav">
         <ul class="nav-list primary-nav">
+          <li class="nav-item">
+            <a href="adminMain.html" class="nav-link">
+                <span class="material-symbols-outlined">home</span>
+                <span class="nav-label">Laman Utama</span>
+            </a>
+        </li>
             <li class="nav-item">
                 <a href="adminManageUser.html" class="nav-link">
-                    <span class="material-symbols-outlined">home</span>
-                    <span class="nav-label">Mengurus Tempahan</span>
+                    <span class="material-symbols-outlined">manage_accounts</span>
+                    <span class="nav-label">Urus Tempahan</span>
                 </a>
             </li>
-            <div class="icon-link">
-                <a href="#" class="nav-link" style="display: flex; align-items: center;">
-                    <span class="material-symbols-outlined">home</span>
-                    <span class="nav-label">Senarai Tempahan</span>
-                    <span class="material-symbols-outlined" id="arrow-down" style="margin-left: auto;">keyboard_arrow_down</span>
-                </a>
-                <ul class="sub-menu" id="sub-menu">
-                    <li><a href="adminApproved.html">Tempahan Diluluskan</a></li>
-                    <li><a href="adminRejected.html">Tempahan Ditolak</a></li>
-                    <li><a href="adminKIV.html">Tempahan Didalam Perhatian</a></li>
-                </ul>
-            </div>
-
-
-            <!-- <li class="nav-item">
-                <a href="adminManageRoom.html" class="nav-link">
-                    <span class="material-symbols-outlined">home</span>
-                    <span class="nav-label">Mengurus Bilik</span>
-                </a>
-            </li> -->
+            <li class="nav-item">
+                <div class="icon-link">
+                    <a href="#" class="nav-link">
+                        <span class="material-symbols-outlined">list</span>
+                        <span class="nav-label">Senarai Tempahan</span>
+                        <span class="material-symbols-outlined" id="arrow-down">keyboard_arrow_down</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li><a href="adminApproved.html">Tempahan Diluluskan</a></li>
+                        <li><a href="adminRejected.html">Tempahan Ditolak</a></li>
+                        <li><a href="adminKIV.html">Tempahan Didalam Perhatian</a></li>
+                    </ul>
+                </div>
+            </li>
             <li class="nav-item">
                 <a href="adminReport.html" class="nav-link">
-                    <span class="material-symbols-outlined">home</span>
+                    <span class="material-symbols-outlined">analytics</span>
                     <span class="nav-label">Statistik Tempahan</span>
                 </a>
             </li>
         </ul>
 
         <ul class="nav-list secondary-nav">
-            <!-- <li class="nav-item">
+            <li class="nav-item">
                 <a href="adminProfile.html" class="nav-link">
                     <span class="material-symbols-outlined">account_circle</span>
                     <span class="nav-label">Profil</span>
                 </a>
-            </li> -->
-            <li class="nav-item">
-                <a href="adminLogin.html" class="nav-link">
-                    <span class="material-symbols-outlined">logout</span>
-                    <span class="nav-label">Log Keluar</span>
-                </a>
             </li>
+            
         </ul>
-  </aside>  
+    </nav>
+</aside>
 
-  <div class="main-content p-4">
-    <div class="header mb-4">
+  <div class="main-content">
+    <div class="main-header">
       <h1>Senarai Tempahan Didalam Perhatian</h1>
     </div>
 
