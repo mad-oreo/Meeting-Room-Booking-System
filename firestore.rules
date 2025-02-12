@@ -5,7 +5,7 @@ service cloud.firestore {
     
     // Users Collection: Allow users to read their own data and update only specific fields
     match /users/{userId} {
-      allow read, update: if request.auth.uid == userId;
+      allow read, update, write: if request.auth.uid == userId;
       allow create: if request.auth.uid != null;
       allow delete: if false; // Prevent users from deleting their profiles
     }

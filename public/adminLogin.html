@@ -1,5 +1,32 @@
-<script src="script/loadHeadFoot.js"></script>
-<div id="header-placeholder"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tempahan Bilik Mesyuarat</title>
+    <link rel="icon" type="image/svg" href="img/Coat_of_Arms_of_Kuala_Lumpur.svg">
+    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="node_modules/@flaticon/flaticon-uicons/css/all/all.css"> -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap" rel="stylesheet">
+    <script src="script/loadHeadFoot.js"></script>
+</head>
+<body>
+    <header class="navbar">
+            <img src="img/Coat_of_Arms_of_Kuala_Lumpur.svg" 
+            alt="Logo DBKL" 
+            class="logo"><a href="#"></a>
+            <div class="logo-text">
+                <h2>INSTITUT LATIHAN</h2>
+                <h3>DEWAN BANDARAYA KUALA LUMPUR</h3>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">Laman Utama</a> |</li>
+                    <li><a href="#">Lihat Tempahan</a> |</li>
+                    <li><a href="#">Profil</a> </li>
+                </ul>
+            <nav>
+        </header>
         <div class="login-page">
             <div class="login-text">
                 <h1>Selamat Datang Ke Laman Pentadbir</h1>
@@ -13,7 +40,11 @@
                     </div>
                     <div class="form-group">
                         <label for="password"><i class="fas fa-lock"></i> Kata Laluan:</label>
-                        <input type="password" id="password" name="password" required>
+                        <div class="form-group-pic">
+                            <input type="password" id="password" name="password" required>
+                            <img src="img/eye-close.png" id="eye">
+                        </div>
+                        <a href="#" id="reset">Lupa Kata Laluan?</a>
                     </div>
                     <button type="submit" name="login" id="log-btn-admin" class="login-btn">LOG MASUK</button>
                 </form>
@@ -23,8 +54,10 @@
         </div>
 
         <script type="module">
-            import { adminLogin } from './script/authAdmin.js';
+            import { adminLogin, adminResetPass } from './script/authAdmin.js';
             adminLogin();
+            adminResetPass();
         </script>
+        <script src="script/showPass.js"></script>
 
         <div id="footer-placeholder"></div>

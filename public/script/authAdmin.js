@@ -1,5 +1,5 @@
 import { auth, app, db } from './firebaseConfig.js';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 import { setDoc, doc, collection, getDocs, query, where, documentId } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 import { addUserData } from './getPostData.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
@@ -140,4 +140,29 @@ export async function getAdminData() {
     console.error("Error fetching user data:", err);
     return [];
   }
+}
+
+export async function adminResetPass() {
+  const resetButton = document.getElementById('reset');
+  resetButton.addEventListener('click', async (event) =>{
+      event.preventDefault();
+
+      const email = document.getElementById('email').value;
+
+      if (!email) {
+          alert('Sila isi emel anda');
+          return;
+      }
+
+      const auth = getAuth();
+      sendPasswordResetEmail(auth, email)
+      .then(() => {
+          alert('Emel untuk set semula kata laluan telah dihantar. Sila semak inbox anda.');
+      })
+      .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorMessage);
+      });
+  });
 }

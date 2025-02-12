@@ -45,6 +45,7 @@
                             <input type="password" id="password" name="password" required>
                             <img src="img/eye-close.png" id="eye">
                         </div>
+                        <a href="#" id="reset">Lupa Kata Laluan?</a>
                     </div>
                     <button type="submit" name="login" id="log-btn" class="login-btn">LOG MASUK</button>
                 </form>
@@ -57,7 +58,7 @@
         <script src="script/showPass.js"></script>
         <script type="module">
             import { loginUser } from './script/getPostData.js';
-            import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+            import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 
             const submitButton = document.getElementById('log-btn');
             submitButton.addEventListener('click', async (event) =>{
@@ -89,6 +90,29 @@
                     }
                 });
                
+            });
+
+            const resetButton = document.getElementById('reset');
+            resetButton.addEventListener('click', async (event) =>{
+                event.preventDefault();
+
+                const email = document.getElementById('email').value;
+
+                if (!email) {
+                    alert('Sila isi emel anda');
+                    return;
+                }
+
+                const auth = getAuth();
+                sendPasswordResetEmail(auth, email)
+                .then(() => {
+                    alert('Emel untuk set semula kata laluan telah dihantar. Sila semak inbox anda.');
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log(errorMessage);
+                });
             });
         </script>
     </body>
