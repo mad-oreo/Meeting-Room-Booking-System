@@ -22,15 +22,11 @@ input[type="number"] {
     font-family: "Montserrat", sans-serif;
 }
 
-
-
-
 body {
     margin: 0;
     font-weight: 500;
     min-height: 100vh;
-    background: linear-gradient(180deg, #fff7e6, #cbe4ff);
-    
+    background: linear-gradient(180deg, #fff7e6, #cbe4ff); 
     
 }
 
@@ -44,6 +40,7 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+   
 }
 
 .logo {

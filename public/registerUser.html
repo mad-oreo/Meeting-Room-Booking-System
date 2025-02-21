@@ -93,7 +93,8 @@ submitButton.addEventListener('click', async (event) => {
   const formData = {
     username: username,
     noGaji: noGaji,
-    jawatan: jawatan
+    jawatan: jawatan,
+    status: 'user'
   };
 
   try {
@@ -108,7 +109,8 @@ submitButton.addEventListener('click', async (event) => {
     await setDoc(doc(db, "userInfo", uid), {
       username: formData.username,
       noGaji: formData.noGaji,
-      jawatan: formData.jawatan
+      jawatan: formData.jawatan,
+      status: formData.status
     });
 
     // If auth is successful, post data

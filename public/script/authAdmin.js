@@ -1,6 +1,6 @@
 import { auth, app, db } from './firebaseConfig.js';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
-import { setDoc, doc, collection, getDocs, query, where, documentId } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+import { setDoc, doc, collection, getDocs, query, where, documentId, getDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 import { addUserData } from './getPostData.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 
@@ -26,7 +26,8 @@ export async function adminRegister() {
       username: username,
       noGaji: noGaji,
       noIC: noIC,
-      jawatan: jawatan
+      jawatan: jawatan,
+      status: 'admin'
     };
 
     try {
@@ -42,7 +43,8 @@ export async function adminRegister() {
         username: formData.username,
         noGaji: formData.noGaji,
         noIC: formData.noIC,
-        jawatan: formData.jawatan
+        jawatan: formData.jawatan,
+        status: formData.status
       });
 
       // If auth is successful, post data
@@ -70,9 +72,8 @@ export async function adminRegister() {
 }
 
 export async function adminLogin() {
-  
     const submitButton = document.getElementById('log-btn-admin');
-    submitButton.addEventListener('click', async (event) =>{
+    submitButton.addEventListener('click', async (event) => {
         event.preventDefault();
 
         const email = document.getElementById('email').value;
@@ -83,23 +84,37 @@ export async function adminLogin() {
             return;
         }
 
-        const auth = getAuth();
-        signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // Signed in 
-            const admin = userCredential.user;
-            alert('Log Masuk Berjaya');
-            window.location.href = 'adminMain.html';
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorMessage);
+        try {
+            const auth = getAuth();
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const adminUser = userCredential.user;
 
-            if (errorCode === 'auth/invalid-credential') {
-                alert('Emel atau Kata Laluan Tidak Sah');
+            // Check Firestore doc to ensure status is "admin"
+            const adminRef = doc(db, "adminInfo", adminUser.uid);
+            const docSnap = await getDoc(adminRef);
+
+            if (docSnap.exists()) {
+                const adminData = docSnap.data();
+                if (adminData.status === 'admin') {
+                    alert('Log Masuk Berjaya');
+                    window.location.href = 'adminMain.html';
+                } else {
+                    await signOut(auth);
+                    alert('Anda bukan Pentadbir. Log masuk dibatalkan.');
+                }
+            } else {
+                await signOut(auth);
+                alert('Data admin tidak dijumpai. Log masuk dibatalkan.');
             }
-        });
+
+        } catch (error) {
+            console.log(error.message);
+            if (error.code === 'auth/invalid-credential') {
+                alert('Emel atau Kata Laluan Tidak Sah');
+            } else {
+                alert(error.message);
+            }
+        }
     });
 }
 

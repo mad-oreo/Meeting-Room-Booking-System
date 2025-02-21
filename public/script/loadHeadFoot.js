@@ -17,7 +17,7 @@ function loadFooter() {
 }
 
 // Insert favicon into <head>
-function loadFavicon() {
+ function loadFavicon() {
     const faviconLink = document.createElement('link');
     faviconLink.rel = 'icon';
     faviconLink.type = 'image/x-icon';
